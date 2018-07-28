@@ -34,7 +34,7 @@ def pay_rent(driver):
 
     pay.click()
     print(amount)
-    amount = '.01'
+    
 
     pay_txt_box = driver.find_element_by_id('pay-amount')
 
