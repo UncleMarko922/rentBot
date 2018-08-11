@@ -10,11 +10,12 @@ class BasePage:
     def go_to(self):
         self.driver.get(self.PAGE_URL)
 
-    def wait_for_id(self, id):
+    def get_clickable_element(self, *selector):
         """
-        Method will perform a wait for 10 seconds when called and an ID is passed in.
+        Method will obtain a clickable element once the page
+         is loaded and element becomes available.
         """
-        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, id)))
+        return WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((*selector)))
 
     def click_with_js(self, locator):
         self.driver.execute_script("arguments[0].click();", locator)
