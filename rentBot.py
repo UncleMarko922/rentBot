@@ -16,7 +16,6 @@ driver = webdriver.Chrome(chrome_driver)
 driver.implicitly_wait(3)
 
 def pay_rent(driver):
-    wait = WebDriverWait(driver, 10)
 
     login_page = LoginPage(driver)
     login_page.login(os.environ['rentUser'],os.environ['rentPass'])
