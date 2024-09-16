@@ -1,28 +1,32 @@
 from pages.base_page import BasePage
+from selenium.webdriver.common.by import By
 import time
 
 class PaymentPage(BasePage):
+    PAY_TEXTBOX = (By.ID, 'pay-amount')
+    CLICK_OFF_PAY = (By.CLASS_NAME, 'pay-steps')
+    PAY_METHOD = (By.ID,'1119452')
+    AGREE_RADIO = (By.ID, 'agree-terms')
+    SUBMIT_PAYMENT = (By.ID, 'submitPayment')
+
     def __init__(self, driver):
         super().__init__(driver)
+        self.get_clickable_element(self.PAY_TEXTBOX)
 
-        self.locators = {
-            'pay_txt_box': driver.find_element_by_id('pay-amount'),
-            'click_pay': driver.find_element_by_class_name('pay-steps')
-        }
-
-    def update_locators(self):
-        self.locators['payment_method'] = self.wait_for_id('1119452')
-        self.locators['agree_radio'] = self.driver.find_element_by_id('agree-terms')
-        self.locators['submit_payment'] = self.driver.find_element_by_id('submitPayment')
+    
 
     def make_payment(self, amount):
-        self.locators['pay_txt_box'].send_keys(amount)
-        self.locators['click_pay'].click()
-        self.update_locators()
-        self.locators['payment_method'].click()
-        self.click_with_js(self.locators['agree_radio'])
+        pay = self.driver.find_element(*self.PAY_TEXTBOX)
+        pay.send_keys(amount)
+        off_pay = self.driver.find_element(*self.CLICK_OFF_PAY)
+        off_pay.click()
+        method_of_payment = self.get_clickable_element(self.PAY_METHOD)
+        method_of_payment.click()
+        agree_radio_btn = self.driver.find_element(*self.AGREE_RADIO)
+        self.click_with_js(agree_radio_btn)
         time.sleep(1)
-        self.click_with_js(self.locators['submit_payment'])
+        submit_payment_btn = self.driver.find_element(*self.SUBMIT_PAYMENT)
+        self.click_with_js(submit_payment_btn)
 
 
         
